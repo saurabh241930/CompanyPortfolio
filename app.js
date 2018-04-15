@@ -4,19 +4,15 @@ var  methodOverride = require('method-override'),
             express = require('express'),
               flash = require('connect-flash'),
 
-               User = require('./models/User'),
-              Image = require('./models/Image'),
-             Member = require('./models/Member'),
-              Event = require('./models/Event'),
-           passport = require('passport'),
-      LocalStrategy = require('passport-local'),
+               Message = require('./models/Message'),
+  
         
                 app = express();
 
 
        
   var  authRoutes = require('./routes/index');
-  var  adminRoutes = require('./routes/adminRoutes');
+
   var cloudinary = require('cloudinary');
   var multer = require('multer'); 
 
@@ -35,34 +31,17 @@ var  methodOverride = require('method-override'),
 
 
 
-app.use(require('express-session')({
-  secret: "This is secret",
-  resave: false,
-  saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+
+
 
 //================================================PASSPORT CONFIGURATION==================================================//
 
-
-/////passing "currentUser" to every template/////////////////
-app.use(function(req,res,next){
-  res.locals.currentUser = req.user;
-  next();
-})
-
-/////////////////////////////////////////////////////////////
 
 
 
    //==================================================APP CONFIG=========================================================//
    mongoose.Promise = global.Promise;
-   mongoose.connect('mongodb://localhost/CSI', { useMongoClient: true, });
+   mongoose.connect('mongodb://localhost/portfolio', { useMongoClient: true, });
    app.set('view engine','ejs');
    app.use(express.static(__dirname +'/public'));
    app.use(bodyParser.urlencoded({extended:true}));
@@ -116,7 +95,9 @@ app.use(function(req,res,next){
 
 
  app.use(authRoutes);
- app.use(adminRoutes);
+
+
+
 
 
 

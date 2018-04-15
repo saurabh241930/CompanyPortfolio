@@ -1,10 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var User = require('../models/User');
-var Image = require('../models/Image');
-var Event = require('../models/Event');
-var Member = require('../models/Member');
+var Message = require('../models/Message');
+
 
 
 
@@ -23,8 +21,46 @@ router.get('/',function(req,res){
 
 
 
+router.post('/sendmessage',function(req,res){
+  
+  var msg = {
+    Name:req.body.Name,
+    Email:req.body.Email,
+    Message:req.body.Message
+  }
+  
+  Message.create(msg,function(err,message){
+    if (err) {
+      console.log(err)
+    } else {
+      
+   
+      
+      res.render('confirm',{message:message})
+    }
+  }
+    
+  )
+  
+     
+});
 
 
+
+
+router.get('/messages',function(req,res){
+ 
+      Message.find({}).exec(function(err,messages) {
+        if (err) {
+          console.log(err)
+        } else {
+             messages = messages.reverse()
+                 res.render('messages',{messages:messages});
+        }
+        
+      })
+
+});
 
 
 
