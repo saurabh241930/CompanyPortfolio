@@ -44,7 +44,6 @@ var  methodOverride = require('method-override'),
    
    mongoose.Promise = global.Promise;
    mongoose.connect(process.env.DATABASEURL);
-//    mongoose.connect('mongodb://chirag778:chirag123@ds255889.mlab.com:55889/boleh');
    app.set('view engine','ejs');
    app.use(express.static(__dirname +'/public'));
    app.use(bodyParser.urlencoded({extended:true}));
