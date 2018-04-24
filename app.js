@@ -41,7 +41,7 @@ var  methodOverride = require('method-override'),
 
    //==================================================APP CONFIG=========================================================//
    mongoose.Promise = global.Promise;
-   mongoose.connect('mongodb://localhost/portfolio', { useMongoClient: true, });
+   mongoose.connect('mongodb://chirag773:chirag123@ds255889.mlab.com:55889/boleh', { useMongoClient: true, });
    app.set('view engine','ejs');
    app.use(express.static(__dirname +'/public'));
    app.use(bodyParser.urlencoded({extended:true}));
