@@ -40,13 +40,17 @@ var  methodOverride = require('method-override'),
 
 
    //==================================================APP CONFIG=========================================================//
+
+   
    mongoose.Promise = global.Promise;
-   mongoose.connect('mongodb://chirag773:chirag123@ds255889.mlab.com:55889/boleh', { useMongoClient: true, });
+   mongoose.connect(DATABASEURL);
+   mongoose.connect('mongodb://chirag778:chirag123@ds255889.mlab.com:55889/boleh', { useMongoClient: true, });
    app.set('view engine','ejs');
    app.use(express.static(__dirname +'/public'));
    app.use(bodyParser.urlencoded({extended:true}));
    app.use(methodOverride('_method'));
   //===================================================APP CONFIG==========================================================//
+
 
 
 
@@ -101,6 +105,10 @@ var  methodOverride = require('method-override'),
 
 
 
-app.listen(3000, function () {
+// app.listen(3000, function () {
+//   console.log('Server started');
+// });
+
+app.listen(process.env.PORT,process.env.IP, function () {
   console.log('Server started');
 });
