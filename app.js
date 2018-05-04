@@ -65,8 +65,8 @@ passport.deserializeUser(User.deserializeUser());
 
    
    mongoose.Promise = global.Promise;
-//    mongoose.connect(process.env.DATABASEURL);
-mongoose.connect('mongodb://localhost/portfolio', { useMongoClient: true, });
+   mongoose.connect(process.env.DATABASEURL);
+// mongoose.connect('mongodb://localhost/portfolio', { useMongoClient: true, });
    app.set('view engine','ejs');
    app.use(express.static(__dirname +'/public'));
    app.use(bodyParser.urlencoded({extended:true}));
@@ -92,10 +92,10 @@ mongoose.connect('mongodb://localhost/portfolio', { useMongoClient: true, });
 
 
 
-app.listen(3000, function () {
-  console.log('Server started');
-});
-
-// app.listen(process.env.PORT,process.env.IP, function () {
+// app.listen(3000, function () {
 //   console.log('Server started');
 // });
+
+app.listen(process.env.PORT,process.env.IP, function () {
+  console.log('Server started');
+});
