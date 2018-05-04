@@ -3,8 +3,10 @@ var  methodOverride = require('method-override'),
            mongoose = require('mongoose'),
             express = require('express'),
               flash = require('connect-flash'),
-
-               Message = require('./models/Message'),
+           passport = require('passport'),
+      LocalStrategy = require('passport-local'),
+            Message = require('./models/Message'),
+              User = require('./models/User'),
   
         
                 app = express();
@@ -30,11 +32,31 @@ var  methodOverride = require('method-override'),
 
 
 
-
+app.use(function(req,res,next){
+  res.locals.currentUser = req.user;
+  next();
+})
 
 
 
 //================================================PASSPORT CONFIGURATION==================================================//
+
+app.use(require('express-session')({
+  secret: "This is secret",
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//================================================PASSPORT CONFIGURATION==================================================//
+
+
+
 
 
 
@@ -43,7 +65,8 @@ var  methodOverride = require('method-override'),
 
    
    mongoose.Promise = global.Promise;
-   mongoose.connect(process.env.DATABASEURL);
+//    mongoose.connect(process.env.DATABASEURL);
+mongoose.connect('mongodb://localhost/portfolio', { useMongoClient: true, });
    app.set('view engine','ejs');
    app.use(express.static(__dirname +'/public'));
    app.use(bodyParser.urlencoded({extended:true}));
@@ -53,47 +76,12 @@ var  methodOverride = require('method-override'),
 
 
 
-///Default event creation///
-//   Main.find({},function(err,main){
-//     if (err) {
-//       console.log(err);
-//     } else {
-    
-//       if(main.length === 0){
-//         Main.create({
-//         Description:"Description of CSI"
-//      })
-//       }
-      
-      
-//     }
-//   })
-///Default event creation///
 
-
-
-
-
-// //==============ADDING DATA================//
-//     Course.create({
-//      courseTitle:'HTML basics',
-//      titleImage :'http://www.spilgames.com/wp-content/uploads/2014/12/documentation_html5_logo.png',
-//      Chapters:[{"lessons":"Part 1"},{"lessons":"Part2"},{"lessons":"Part3"},{"lessons":"Part4"},{"lessons":"Part5"}]
-//     });
-
-// var datas = db.blogs.find({"creater.username":"developer"});
-// console.log(datas);
-
-
-
-    
 
 
 
   
-//==============ADDING DATA================//
 
-//==================================================RESTFUL ROUTES=========================================================//
 
 
 
@@ -104,10 +92,10 @@ var  methodOverride = require('method-override'),
 
 
 
-// app.listen(3000, function () {
-//   console.log('Server started');
-// });
-
-app.listen(process.env.PORT,process.env.IP, function () {
+app.listen(3000, function () {
   console.log('Server started');
 });
+
+// app.listen(process.env.PORT,process.env.IP, function () {
+//   console.log('Server started');
+// });

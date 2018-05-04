@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var Message = require('../models/Message');
+var User = require('../models/User');
 
 
 
@@ -48,7 +49,7 @@ router.post('/sendmessage',function(req,res){
 
 
 
-router.get('/messages',function(req,res){
+router.get('/messages',isLoggedIn,function(req,res){
  
       Message.find({}).exec(function(err,messages) {
         if (err) {
@@ -85,14 +86,8 @@ router.get('/register',function(req,res){
 
 //Sign Up logic
 router.post('/register',function(req,res){
-var newUser = new User ({
-                        username: req.body.username,
-                        StudentName : req.body.StudentName,
-                        Gender : req.body.Gender,
-                        Class : req.body.Class,
-                        RollNumber : req.body.RollNumber,
-                        MobileNumber : req.body.MobileNumber
-                        });
+  
+var newUser = new User({username: req.body.username});
   
 
   
@@ -113,14 +108,13 @@ res.redirect('/');
 
 
 /////////////////////Login route///////////////////////////
-// router.get('/login',function(req,res){
-// res.render('login');
-// });
+router.get('/login',function(req,res){
+res.render('login');
+});
 
-//login logic
-// app.post('/login',middleware,callback)
+
 router.post('/login',passport.authenticate("local",
-{successRedirect: "/",
+{successRedirect: "/messages",
 failureRedirect: "/"
 }),function(req,res){
 
@@ -135,7 +129,7 @@ res.redirect('/');
 
 ////////////////// #### Middleware ##### for checking if user is logged in or not//////////////////////////////////////
 function isLoggedIn(req,res,next){
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.username == 'Admin') {
     return next();
   } else {
     
