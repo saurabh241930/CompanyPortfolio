@@ -65,8 +65,8 @@ passport.deserializeUser(User.deserializeUser());
 
    
    mongoose.Promise = global.Promise;
-   mongoose.connect(process.env.DATABASEURL);
-// mongoose.connect('mongodb://localhost/portfolio', { useMongoClient: true, });
+   var url = process.env.DATABASEURL || "mongodb://localhost/portfolio"
+   mongoose.connect(url);
    app.set('view engine','ejs');
    app.use(express.static(__dirname +'/public'));
    app.use(bodyParser.urlencoded({extended:true}));
