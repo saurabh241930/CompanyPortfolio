@@ -23,12 +23,6 @@ var  methodOverride = require('method-override'),
 
 //================================================PASSPORT CONFIGURATION==================================================//
 
- cloudinary.config({ 
- cloud_name: 'dxotafsfa', 
- api_key: '247743586122155', 
- api_secret: 'lRSmFwRap_LS-tKzXQqgdqhv8Xo' 
- }); 
-
 
 
 
